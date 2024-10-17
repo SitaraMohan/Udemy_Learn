@@ -3,16 +3,17 @@ pipeline {
 
     stages {
         stage('Build') {
-                      steps {
-                sh '''
-                docker.image('node:18-alpine').inside('-v /c/data/jenkins_home/workspace/Udemy_Task:/workspace')
-                    ls -la
-                    node --version
-                    npm --version
-                    npm ci
-                    npm run build
-                    ls -la
-                '''
+            steps {
+                script {
+                    docker.image('node:18-alpine').inside('-v c:\\data\\jenkins_home\\workspace\\Udemy_Task:/workspace') {
+                        bat 'dir'
+                        bat 'node --version'
+                        bat 'npm --version'
+                        bat 'npm ci'
+                        bat 'npm run build'
+                        bat 'dir'
+                    }
+                }
             }
         }
 
@@ -25,10 +26,16 @@ pipeline {
             }
 
             steps {
-                sh '''
-                    test -f build/index.html
-                    npm test
-                '''
+                script {
+                    bat '''
+                        if exist build\\index.html (
+                            npm test
+                        ) else (
+                            echo "Build index.html not found"
+                            exit 1
+                        )
+                    '''
+                }
             }
         }
     }
