@@ -3,14 +3,9 @@ pipeline {
 
     stages {
         stage('Build') {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    reuseNode true
-                }
-            }
-            steps {
+                      steps {
                 sh '''
+                docker.image('node:18-alpine').inside('-v /c/data/jenkins_home/workspace/Udemy_Task:/workspace')
                     ls -la
                     node --version
                     npm --version
