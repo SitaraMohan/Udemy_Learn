@@ -6,7 +6,8 @@ pipeline {
             steps {
                 script {
                 //    docker.image('node:18-alpine').inside('-v c:\\data\\jenkins_home\\workspace\\Udemy_Task:/workspace') {
-                    docker run -d \
+                    {
+                        docker run -d \
   -p 8080:8080 \
   -v c:/data/jenkins_home:/var/jenkins_home \
   jenkins/jenkins:lts
